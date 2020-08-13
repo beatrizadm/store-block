@@ -1,13 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { TimeSplit } from './typings/global'
+import { tick } from './utils/time'
 
 interface CountdownProps {
   targetDate: string
 }
 
-const Countdown: StorefrontFunctionComponent<CountdownProps> = ({ targetDate }) => {
+const DEFAULT_TARGET_DATE = (new Date('2020-06-25')).toISOString()
+
+const Countdown: StorefrontFunctionComponent<CountdownProps> = ({ targetDate = DEFAULT_TARGET_DATE }) => {
+  const [timeRemaining, setTime] = useState<TimeSplit>({
+    hours: '00',
+    minutes: '00',
+    seconds: '00'
+  })
+
+  tick(targetDate, setTime)
+  
   return (
     <div>
-      <h1>{ targetDate }</h1>
+      <h1>
+      { `${timeRemaining.hours}:${timeRemaining.minutes}:${timeRemaining.seconds}` }
+      </h1>
     </div>
   )
 }
